@@ -1,5 +1,95 @@
-<html>
-  <body>
-    https://faishalkim.app.n8n.cloud
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HAKIM DISKON - TikTok Login</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: white;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      text-align: center;
+      padding: 30px;
+      background: #1a1a1a;
+      border-radius: 12px;
+      width: 320px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 13px;
+      color: #aaa;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background: #fe2c55;
+      border: none;
+      padding: 12px 18px;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #e81e4d;
+    }
+
+    .small {
+      margin-top: 15px;
+      font-size: 11px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>HAKIM DISKON</h1>
+    <p>Connect your TikTok account to continue</p>
+
+    <button onclick="loginTikTok()">
+      Login with TikTok
+    </button>
+
+    <div class="small">
+      TikTok OAuth Demo Integration
+    </div>
+  </div>
+
+  <script>
+    function loginTikTok() {
+      const clientKey = "sbawxa0zvk4oetp89y";
+      const redirectUri = "https://wiwieksuryaintan.github.io/hakimdiskonurlweb/";
+
+      const scope = "user.info.profile,video.list";
+
+      const url =
+        "https://www.tiktok.com/v2/auth/authorize/" +
+        "?client_key=" + clientKey +
+        "&response_type=code" +
+        "&scope=" + scope +
+        "&redirect_uri=" + encodeURIComponent(redirectUri);
+
+      window.location.href = url;
+    }
+  </script>
+</body>
 </html>
