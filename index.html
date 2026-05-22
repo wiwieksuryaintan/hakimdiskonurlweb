@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HAKIM DISKON - TikTok Login</title>
+  <title>HAKIM DISKON</title>
 
   <style>
     body {
@@ -12,44 +12,53 @@
       background: #0f0f0f;
       color: white;
       display: flex;
-      height: 100vh;
       justify-content: center;
       align-items: center;
+      height: 100vh;
     }
 
     .card {
-      text-align: center;
+      background: #1c1c1c;
       padding: 30px;
-      background: #1a1a1a;
-      border-radius: 12px;
-      width: 320px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      border-radius: 14px;
+      width: 340px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0,0,0,0.5);
     }
 
     h1 {
-      font-size: 20px;
       margin-bottom: 10px;
     }
 
     p {
-      font-size: 13px;
       color: #aaa;
-      margin-bottom: 20px;
+      font-size: 14px;
     }
 
     button {
-      background: #fe2c55;
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
       border: none;
-      padding: 12px 18px;
+      border-radius: 8px;
+      background: #fe2c55;
       color: white;
       font-weight: bold;
-      border-radius: 8px;
       cursor: pointer;
-      width: 100%;
+      font-size: 15px;
     }
 
     button:hover {
-      background: #e81e4d;
+      background: #e91e63;
+    }
+
+    #status {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #111;
+      color: #00ff88;
+      font-size: 14px;
     }
 
     .small {
@@ -61,32 +70,59 @@
 </head>
 
 <body>
+
   <div class="card">
+
     <h1>HAKIM DISKON</h1>
+
     <p>Connect your TikTok account to continue</p>
 
     <button onclick="loginTikTok()">
       Login with TikTok
     </button>
 
+    <div id="status">
+      Not connected
+    </div>
+
     <div class="small">
       TikTok OAuth Demo Integration
     </div>
+
   </div>
 
   <script>
-    <script>
-function loginTikTok() {
-  // 1. optional: show loading effect
-  console.log("Redirecting to TikTok OAuth...");
 
-  // 2. redirect langsung ke n8n mock webhook (SIMULASI CALLBACK REAL)
-  const n8nWebhook = "https://n8n.hakimdiskon.com/webhook/tiktok/callback";
+    async function loginTikTok() {
 
-  // 3. send user to n8n (this replaces real TikTok OAuth for demo)
-  window.location.href = n8nWebhook;
-}
-</script>
+      document.getElementById("status").innerHTML =
+        "Connecting to TikTok...";
+
+      try {
+
+        // GANTI DENGAN URL WEBHOOK N8N KAMU
+        const webhook =
+          "https://n8n.hakimdiskon.com/webhook/tiktok/callback";
+
+        const response = await fetch(webhook);
+
+        const data = await response.json();
+
+        document.getElementById("status").innerHTML =
+          "Connected as: " +
+          data.username +
+          " ✔";
+
+      } catch (err) {
+
+        document.getElementById("status").innerHTML =
+          "Connection failed ❌";
+
+      }
+
+    }
+
   </script>
+
 </body>
 </html>
