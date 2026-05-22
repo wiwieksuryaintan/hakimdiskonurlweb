@@ -1,145 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>HAKIM DISKON</title>
-
-<style>
-
-body{
-    margin:0;
-    background:#0f0f0f;
-    font-family:Arial,sans-serif;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-}
-
-.card{
-    width:340px;
-    background:#1c1c1c;
-    padding:30px;
-    border-radius:14px;
-    text-align:center;
-    box-shadow:0 0 25px rgba(0,0,0,.5);
-}
-
-h1{
-    margin-bottom:10px;
-}
-
-p{
-    color:#aaa;
-    font-size:14px;
-}
-
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    background:#fe2c55;
-    color:white;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
-    margin-top:20px;
-}
-
-button:hover{
-    background:#e91e63;
-}
-
-#status{
-    margin-top:20px;
-    background:#111;
-    padding:12px;
-    border-radius:8px;
-    color:#00ff88;
-    font-size:14px;
-}
-
-.small{
-    margin-top:15px;
-    font-size:11px;
-    color:#666;
-}
-
-</style>
-
+  <title>HAKIM DISKON</title>
 </head>
 
-<body>
-
-<div class="card">
+<body style="background:black;color:white;font-family:Arial;text-align:center;padding-top:100px;">
 
 <h1>HAKIM DISKON</h1>
-
-<p>Connect your TikTok account to continue</p>
 
 <button onclick="loginTikTok()">
 Login with TikTok
 </button>
 
-<div id="status">
-Not connected
-</div>
-
-<div class="small">
-TikTok OAuth Demo Integration
-</div>
-
-</div>
+<p id="status">Not connected</p>
 
 <script>
 
-async function loginTikTok(){
+async function loginTikTok() {
 
-    const statusBox =
-        document.getElementById("status");
+  document.getElementById("status").innerHTML =
+    "Connecting...";
 
-    statusBox.innerHTML =
-        "Connecting to TikTok...";
+  try {
 
-    try{
+    const response = await fetch(
+      "https://faishalkim.app.n8n.cloud/webhook/tiktok/callback"
+    );
 
-        const webhook =
-        "https://faishalkim.app.n8n.cloud/webhook-test/tiktok/callback";
+    const data = await response.json();
 
-        const response =
-            await fetch(webhook);
+    document.getElementById("status").innerHTML =
+      "Connected ✔";
 
-        const data =
-            await response.json();
+    console.log(data);
 
-        console.log(data);
+  } catch (e) {
 
-        if(data.username){
+    console.log(e);
 
-            statusBox.innerHTML =
-            "Connected as: " +
-            data.username +
-            " ✔";
+    document.getElementById("status").innerHTML =
+      "Webhook error ❌";
 
-        }else{
-
-            statusBox.innerHTML =
-            "Connected ✔";
-
-        }
-
-    }catch(error){
-
-        console.error(error);
-
-        statusBox.innerHTML =
-        "Webhook error ❌";
-
-    }
+  }
 
 }
 
