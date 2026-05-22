@@ -1,128 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HAKIM DISKON</title>
+<script>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f0f0f;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+async function loginTikTok() {
+
+  const statusBox = document.getElementById("status");
+
+  statusBox.innerHTML = "Connecting to TikTok...";
+
+  try {
+
+    const webhook =
+      "https://n8n.hakimdiskon.com/webhook/tiktok/callback";
+
+    // request ke n8n
+    const response = await fetch(webhook, {
+      method: "GET"
+    });
+
+    // tampilkan status HTTP
+    console.log("HTTP Status:", response.status);
+
+    // ambil text dulu
+    const text = await response.text();
+
+    console.log("RAW RESPONSE:", text);
+
+    // coba parse json
+    let data;
+
+    try {
+      data = JSON.parse(text);
+    } catch (jsonError) {
+
+      statusBox.innerHTML =
+        "Invalid JSON response ❌";
+
+      console.error("JSON ERROR:", jsonError);
+
+      return;
     }
 
-    .card {
-      background: #1c1c1c;
-      padding: 30px;
-      border-radius: 14px;
-      width: 340px;
-      text-align: center;
-      box-shadow: 0 0 25px rgba(0,0,0,0.5);
-    }
+    // cek username
+    if (data.username) {
 
-    h1 {
-      margin-bottom: 10px;
-    }
+      statusBox.innerHTML =
+        "Connected as: " +
+        data.username +
+        " ✔";
 
-    p {
-      color: #aaa;
-      font-size: 14px;
-    }
+    } else {
 
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      background: #fe2c55;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    button:hover {
-      background: #e91e63;
-    }
-
-    #status {
-      margin-top: 20px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #111;
-      color: #00ff88;
-      font-size: 14px;
-    }
-
-    .small {
-      margin-top: 15px;
-      font-size: 11px;
-      color: #666;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="card">
-
-    <h1>HAKIM DISKON</h1>
-
-    <p>Connect your TikTok account to continue</p>
-
-    <button onclick="loginTikTok()">
-      Login with TikTok
-    </button>
-
-    <div id="status">
-      Not connected
-    </div>
-
-    <div class="small">
-      TikTok OAuth Demo Integration
-    </div>
-
-  </div>
-
-  <script>
-
-    async function loginTikTok() {
-
-      document.getElementById("status").innerHTML =
-        "Connecting to TikTok...";
-
-      try {
-
-        // GANTI DENGAN URL WEBHOOK N8N KAMU
-        const webhook =
-          "https://n8n.hakimdiskon.com/webhook/tiktok/callback";
-
-        const response = await fetch(webhook);
-
-        const data = await response.json();
-
-        document.getElementById("status").innerHTML =
-          "Connected as: " +
-          data.username +
-          " ✔";
-
-      } catch (err) {
-
-        document.getElementById("status").innerHTML =
-          "Connection failed ❌";
-
-      }
+      statusBox.innerHTML =
+        "Username not found ❌";
 
     }
 
-  </script>
+  } catch (err) {
 
-</body>
-</html>
+    console.error("FETCH ERROR:", err);
+
+    statusBox.innerHTML =
+      "Cannot reach n8n webhook ❌";
+
+  }
+
+}
+
+</script>
