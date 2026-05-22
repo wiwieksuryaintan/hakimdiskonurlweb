@@ -75,21 +75,18 @@
   </div>
 
   <script>
-    function loginTikTok() {
-      const clientKey = "sbawxa0zvk4oetp89y";
-      const redirectUri = "https://wiwieksuryaintan.github.io/hakimdiskonurlweb/";
+    <script>
+function loginTikTok() {
+  // 1. optional: show loading effect
+  console.log("Redirecting to TikTok OAuth...");
 
-      const scope = "user.info.profile,video.list";
+  // 2. redirect langsung ke n8n mock webhook (SIMULASI CALLBACK REAL)
+  const n8nWebhook = "https://n8n.hakimdiskon.com/webhook/tiktok/callback";
 
-      const url =
-        "https://www.tiktok.com/v2/auth/authorize/" +
-        "?client_key=" + clientKey +
-        "&response_type=code" +
-        "&scope=" + scope +
-        "&redirect_uri=" + encodeURIComponent(redirectUri);
-
-      window.location.href = url;
-    }
+  // 3. send user to n8n (this replaces real TikTok OAuth for demo)
+  window.location.href = n8nWebhook;
+}
+</script>
   </script>
 </body>
 </html>
